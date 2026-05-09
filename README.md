@@ -66,12 +66,12 @@ Abra o terminal (CMD ou PowerShell) na pasta do projeto e rode:
 
 **Teste Rápido (300 pacotes / ~5 minutos)**
 ```cmd
-python conan_diagnostico_avancado_ue5.py --ip 84.75.219.218 --port 7700 --label SUA_OPERADORA
+python conan_diagnostico_avancado_ue5.py --ip IPCONANSERVER --port 7700 --label SUA_OPERADORA
 ```
 
 **Teste de Estresse Pesado (Para horários de pico - 600 pacotes / ~10 minutos)**
 ```cmd
-python conan_diagnostico_avancado_ue5.py --ip 84.75.219.218 --port 7700 --label SUA_OPERADORA --count 600 --interval 0.08
+python conan_diagnostico_avancado_ue5.py --ip IPCONANSERVER --port 7700 --label SUA_OPERADORA --count 600 --interval 0.08
 ```
 
 Ao finalizar, um arquivo `.txt` será gerado automaticamente na pasta `Documentos\ConanRotas\`. Basta anexar este arquivo no Discord ou sistema de tickets do seu servidor.
