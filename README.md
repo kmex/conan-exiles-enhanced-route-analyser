@@ -1,4 +1,4 @@
-# Conan Exiles Enhanced - Analisador de Rota (Dual-WAN)
+# Conan Exiles Enhanced - Analisador de Rota (Single OR Dual-WAN)
 
 Ferramenta de diagnóstico de rede focada para jogadores de **Conan Exiles** e administradores de servidores. Essencial para quem utiliza **roteadores com Dual-WAN** (ex: TP-Link Omada) e precisa descobrir qual provedor tem a melhor rota.
 
