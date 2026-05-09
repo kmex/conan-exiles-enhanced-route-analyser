@@ -37,7 +37,44 @@ Para gerar um diagnóstico profundo de servidor:
 ```cmd
 python conan_diagnostico_avancado_ue5.py --ip [IP_DO_SERVIDOR] --port 7700 --label [SUA_OPERADORA]
 ```
+## 🔍 Diagnóstico Avançado para Conan Exiles Enhanced (UE5)
+**Arquivo:** `conan_diagnostico_avancado_ue5.py`
 
+Com a migração do Conan Exiles para a **Unreal Engine 5**, a forma como o servidor processa a rede e os eventos físicos mudou drasticamente. Jitter e perda de pacotes agora frequentemente não são culpa da sua internet, mas sim do **Game Thread** do servidor engasgando ou do **Anti-DDoS** do datacenter bloqueando o tráfego do jogo.
+
+Este script foi desenhado para rodar via linha de comando (CLI) e gerar um **Dossiê Técnico** automatizado, pronto para ser enviado via Ticket de Suporte para os administradores do servidor.
+
+### ⚙️ O que ele analisa?
+
+1. **Análise de Degradação Temporal (Memory Leak / CPU Bottleneck)**
+   O script divide o stress test em 3 blocos de tempo. Se o Jitter do Bloco 3 for >40% pior que o do Bloco 1, ele detecta que o problema piora progressivamente. Na UE5, isso geralmente indica falha no Garbage Collection ou acúmulo de processamento no Game Thread.
+2. **Detecção de Burst Loss (Falso Positivo de Anti-DDoS)**
+   Servidores UE5 mandam rajadas pesadas de pacotes UDP (RPCs). O script conta pacotes perdidos em sequência (Burst Loss). Perdas consecutivas geralmente significam que o Firewall/Mitigação DDoS do datacenter está cortando (rate-limiting) o tráfego legítimo do jogo.
+3. **Percentis e Spikes (Picos)**
+   Ao invés de mostrar apenas a "média", o script calcula o P95 (Percentil 95) e a quantidade de *Spikes* (quando um pacote demora 3x mais que a média), que são os responsáveis diretos pelos "teleportes" (rubberbanding) in-game.
+
+### 📝 Recomendações Automáticas
+Baseado nos resultados, o script imprime recomendações exatas para a equipe de TI do servidor, incluindo parâmetros do `DefaultEngine.ini` focados na UE5, como:
+- Ajustes de `MaxDynamicBandwidth` e `TotalNetBandwidth`.
+- Ajustes no Garbage Collection (`gc.TimeBetweenPurgingPendingKillObjects`).
+- Alterações em `NetServerMaxTickRate`.
+- Dicas de roteamento BGP e checagem de CPU Steal (`%st`) em máquinas virtuais.
+
+### 🚀 Como utilizar
+
+Abra o terminal (CMD ou PowerShell) na pasta do projeto e rode:
+
+**Teste Rápido (300 pacotes / ~5 minutos)**
+```cmd
+python conan_diagnostico_avancado_ue5.py --ip 84.75.219.218 --port 7700 --label SUA_OPERADORA
+```
+
+**Teste de Estresse Pesado (Para horários de pico - 600 pacotes / ~10 minutos)**
+```cmd
+python conan_diagnostico_avancado_ue5.py --ip 84.75.219.218 --port 7700 --label SUA_OPERADORA --count 600 --interval 0.08
+```
+
+Ao finalizar, um arquivo `.txt` será gerado automaticamente na pasta `Documentos\ConanRotas\`. Basta anexar este arquivo no Discord ou sistema de tickets do seu servidor.
 ---
 
 ## 🔧 Uso com Roteador gerenciavel OMADA
