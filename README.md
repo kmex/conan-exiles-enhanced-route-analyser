@@ -8,7 +8,7 @@ Este projeto contém ferramentas para análise em tempo real e um gerador de dia
 
 ## ✨ Funcionalidades
 
-### 1. `conan_gui_v2.py` — Interface Gráfica para o Jogador
+### 1. `conan_gui_v2.py` — Interface Gráfica
 - Detecta seu **IP local (DHCP)** automaticamente para facilitar a criação de Policy Routing no Omada.
 - **Gráfico em tempo real** de RTT (Ping) e Jitter.
 - Histórico de testes em tabela com diagnóstico (BOM / ATENÇÃO / RUIM).
